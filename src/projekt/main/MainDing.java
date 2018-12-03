@@ -12,7 +12,7 @@ public class MainDing {
 		String[] arSTring;
 		BasicTHMChatServer test = new BasicTHMChatServer();
 		try {
-			arSTring = test.getUsers("Rene_Terry", "0000");
+			arSTring = test.getUsers("Bla", "0000");
 			for (int i = 0; i<arSTring.length; i++)
 			{
 				System.out.println(arSTring[i]);
