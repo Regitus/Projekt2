@@ -9,7 +9,7 @@ public class MainDing {
 	public static void main(String[] args)
 	{
 		String pass = "0000";
-		String user = "Rene_Terry";
+		String user = "Bla";
 		String[] arSTring;
 		BasicTHMChatServer test = new BasicTHMChatServer();
 		try {
