@@ -8,11 +8,11 @@ public class MainDing {
 	
 	public static void main(String[] args)
 	{
-		
+		String pass = "0000";
 		String[] arSTring;
 		BasicTHMChatServer test = new BasicTHMChatServer();
 		try {
-			arSTring = test.getUsers("Rene_Terry", "0000");
+			arSTring = test.getUsers("Rene_Terry", pass);
 			for (int i = 0; i<arSTring.length; i++)
 			{
 				System.out.println(arSTring[i]);
@@ -25,7 +25,7 @@ public class MainDing {
 			e.printStackTrace();
 		}
 		try {
-			arSTring = test.getMostRecentMessages("Rene_Terry", "0000");
+			arSTring = test.getMostRecentMessages("Rene_Terry", pass);
 			for (int i = 0; i<arSTring.length; i++)
 			{
 				System.out.println(arSTring[i]);
