@@ -24,7 +24,19 @@ public class MainDing {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		try {
+			arSTring = test.getMostRecentMessages("Rene_Terry", "0000");
+			for (int i = 0; i<arSTring.length; i++)
+			{
+				System.out.println(arSTring[i]);
+			}
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
