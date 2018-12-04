@@ -9,15 +9,11 @@ public class MainDing {
 	
 	public static void main(String[] args)
 	{
-		String pass = "0000";
-		String user = "Bla";
+		
 		
 		Scanner in = new Scanner(System.in);
-		System.out.println("User");
-		user = in.next();
-		System.out.println("Pass");
-		pass = in.next();
-		
+
+		in.close();
 	}
 
 }
