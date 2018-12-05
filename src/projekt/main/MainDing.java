@@ -1,12 +1,12 @@
 package projekt.main;
 
-import projekt.Basis.Hauptprogramm;
+import projekt.basis.Klient;
 
 public class MainDing {
 	
 	public static void main(String[] args)
 	{
-		Hauptprogramm programm = new Hauptprogramm();
+		Klient programm = new Klient();
 		
 		programm.programm();
 		

@@ -1,21 +1,23 @@
-package projekt.Basis;
+package projekt.basis;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 import de.thm.oop.chat.base.server.BasicTHMChatServer;
-import projekt.User.*;
+import projekt.user.*;
 
-public class Hauptprogramm {
+public class Klient {
 	
 	private AktuellerBenutzer benutzer; // = new AktuellerBenutzer(); 
 	private BasicTHMChatServer server = new BasicTHMChatServer();
+	private Nutzer nutzer;
 	private Scanner in;
 	
 	
-	public Hauptprogramm()
+	public Klient()
 	{
 		anmelden();
+		nutzer = new Nutzer(benutzer);
 	}
 	
 	private void anmelden()
@@ -45,6 +47,12 @@ public class Hauptprogramm {
 				ausgebenNeuesteNachrichten();
 				break;
 				
+			case 3:
+				
+				ausgebenStringArray(nutzer.getListe());
+				
+				break;
+				
 			case 99:
 				run = false;
 				break;
@@ -63,10 +71,7 @@ public class Hauptprogramm {
 		tmpString = getNachrichten();
 		if (tmpString != null)
 		{
-			for (String nachricht : tmpString)
-			{
-				System.out.println(nachricht);
-			}
+			ausgebenStringArray(tmpString);
 		}
 	}
 	
@@ -86,6 +91,14 @@ public class Hauptprogramm {
 			return error;
 		}
 		
+	}
+	
+	private void ausgebenStringArray(String[] arString)
+	{
+		for (String text : arString)
+		{
+			System.out.println(text);
+		}
 	}
 	
 

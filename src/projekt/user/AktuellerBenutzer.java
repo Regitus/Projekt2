@@ -1,4 +1,4 @@
-package projekt.User;
+package projekt.user;
 
 public class AktuellerBenutzer {
 	
