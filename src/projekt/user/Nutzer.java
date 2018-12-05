@@ -9,6 +9,11 @@ public class Nutzer extends Personen {
 	private BasicTHMChatServer server;
 	
 	public Nutzer(AktuellerBenutzer benutzer) {
+		aktualisieren(benutzer);
+	}
+	
+	private void aktualisieren(AktuellerBenutzer benutzer)
+	{
 		server = new BasicTHMChatServer();
 		try {
 			listePersonen = server.getUsers(benutzer.getBenutzerName(), benutzer.getPasswort());
@@ -17,7 +22,6 @@ public class Nutzer extends Personen {
 		} catch (IOException e) {
 			System.out.println("Fehlerhafte Anmeldedaten");
 		}
-		
 	}
 	
 	
@@ -34,5 +38,23 @@ public class Nutzer extends Personen {
 		
 		return tmpArString;
 	}
+	
+	/**
+	 * Anfordern des Namen eines Nutzer.
+	 * @param Nummer der Person aus der Listenausgabe. (Intern dann ID-1)
+	 * @return	Gibt den Namen als String wieder
+	 */
+	public String getNameDurchID(int id)
+	{
+		return listePersonen[id-1];
+		
+	}
+	
+	public void holeListeNeu(AktuellerBenutzer benutzer)
+	{
+		aktualisieren(benutzer);
+	}
+	
+	
 
 }
