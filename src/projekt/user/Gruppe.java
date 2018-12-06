@@ -11,9 +11,10 @@ public class Gruppe extends Personen {
 	private String gruppenName;
 	
 	/**
-	 * @return the gruppenName
+	 * Über den Konstruktor wird die Gruppe mit einem Namen und einer Liste der Gruppe mit ihren direkten Namen gespeichert
+	 * @param name Dies ist der Gruppen name
+	 * @param liste String Array mit der Liste der Nutzer der Gruppe
 	 */
-	
 	public Gruppe(String name, String[] liste)
 	{
 		listePersonen = liste;

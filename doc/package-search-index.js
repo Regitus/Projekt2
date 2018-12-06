@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"projekt.basis"},{"l":"projekt.main"},{"l":"projekt.nachrichten"},{"l":"projekt.user"}]
+packageSearchIndex = [{"l":"projekt.user"}]

@@ -20,7 +20,7 @@ public class AktuellerBenutzer {
 	}
 	/**
 	 * Benutzernamen speichern
-	 * @param Setzt den Benutzernamen
+	 * @param userName Setzt den Benutzernamen
 	 * 
 	 */
 	public void setBenutzerName(String userName) {
@@ -37,7 +37,7 @@ public class AktuellerBenutzer {
 		return passwort;
 	}
 	/**
-	 * @param Gibt das Passwort wieder aus
+	 * @param password Gibt das Passwort wieder aus
 	 */
 	public void setPasswort(String password) {
 		this.passwort = password;

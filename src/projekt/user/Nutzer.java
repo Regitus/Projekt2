@@ -55,7 +55,7 @@ public class Nutzer extends Personen {
 	
 	/**
 	 * Anfordern des Namen eines Nutzer.
-	 * @param Nummer der Person aus der Listenausgabe. (Intern dann ID-1)
+	 * @param id Nummer der Person aus der Listenausgabe. (Intern dann ID-1)
 	 * @return	Gibt den Namen als String wieder
 	 */
 	public String getNameDurchID(int id)
