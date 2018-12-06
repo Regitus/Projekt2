@@ -19,7 +19,9 @@ public class AktuellerBenutzer {
 		return benutzerName;
 	}
 	/**
-	 * @param Setzt den Usernamen
+	 * Benutzernamen speichern
+	 * @param Setzt den Benutzernamen
+	 * 
 	 */
 	public void setBenutzerName(String userName) {
 		this.benutzerName = userName;
