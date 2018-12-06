@@ -174,12 +174,14 @@ public class Klient {
 		
 	}
 	
-	
+	/**
+	 * Erstellen einer neuen Gruppe und anhängen an die ArrayList der Gruppe
+	 */
 	private void erstelleNeueGruppe() {
 		// TODO Auto-generated method stub
-		ArrayList<Integer> idLIste = new ArrayList<Integer>();
-		String[] tmpListeNutzer;
-		int idWert;
+		ArrayList<Integer> idLIste = new ArrayList<Integer>(); //Dynamische Liste für ID Werte
+		String[] tmpListeNutzer;								//Stringarray zum übergeben an Gruppe. Größe wird aufgrungd der ArrayList definiert
+		int idWert;												//Eingabewert der ID
 		
 		ausgebenStringArray(nutzer.getListe());
 		System.out.println("Bitte geben sie nacheinander die ID und bestaetigen sie jede ID mit Enter."
@@ -196,16 +198,18 @@ public class Klient {
 			}while(idWert != 0); //Ende IDs einlesen
 			
 			
-			if (idLIste.size() != 0)
+			if (idLIste.size() != 0) //Liste muss natürlich etwas enthalten
 			{
 				tmpListeNutzer = new String[idLIste.size()];
 				
 				for (int i = 0; i<idLIste.size(); i++)
 				{
 					
-					tmpListeNutzer[i] = nutzer.getNameDurchID(idLIste.get(i));
+					tmpListeNutzer[i] = nutzer.getNameDurchID(idLIste.get(i)); //Name aus der Nutzer KLasse holen
 					
 				}
+				
+				//Der Gruppe einen Namen geben und die Gruppe erstellen
 				System.out.println("Bitte nun noch den Namen der Gruppe angeben");
 				listeDerGruppen.add(new Gruppe(in.next(), tmpListeNutzer));
 			}
@@ -217,13 +221,16 @@ public class Klient {
 			System.out.println("Fehlerhafte Eingabe. Gruppenerstellung wird abgebrochen");
 		}
 	}
-
+	
+	/**
+	 * Gruppen über Namen auflisten
+	 */
 	private void auflistenGruppeUeberName() {
 		Gruppe tmpGruppe;
 		for (int i = 0; i<listeDerGruppen.size(); i++)
 		{
 			tmpGruppe = listeDerGruppen.get(i);
-			System.out.println(tmpGruppe.getGruppenName());
+			System.out.println(i+1 + ". " + tmpGruppe.getGruppenName());
 		}
 		
 	}
