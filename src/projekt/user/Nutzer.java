@@ -60,8 +60,16 @@ public class Nutzer extends Personen {
 	 */
 	public String getNameDurchID(int id)
 	{
-		return listePersonen[id-1];
+		if(id >= 1 && id <= listePersonen.length)
+		{
+			return listePersonen[id-1];
+		}else return null;
 		
+	}
+	
+	public int getArrayLaenge()
+	{
+		return listePersonen.length;
 	}
 	
 	public void holeListeNeu(AktuellerBenutzer benutzer)

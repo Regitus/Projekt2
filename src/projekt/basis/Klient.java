@@ -2,6 +2,7 @@ package projekt.basis;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import de.thm.oop.chat.base.server.BasicTHMChatServer;
@@ -65,6 +66,7 @@ public class Klient {
 				zeigeGruppenMenu();
 				break;
 			case 99:
+				in.close();
 				run = false;
 				break;
 				
@@ -146,11 +148,13 @@ public class Klient {
 				
 			case 2:
 				//Methode die die ArrayList durcharbeitet und Name ausgibt mit einer ID
+				auflistenGruppeUeberName();
 				break;
 				
 			case 3:
 				//Methode zur Erstellung einer neuen Gruppe. Erst ID ausgeben und dann solange IDs eingeben bis man 0 eingibt.
 				//Bei 0 beenden und Gruppe erstellen
+				erstelleNeueGruppe();
 				break;
 				
 			case 4:
@@ -167,6 +171,60 @@ public class Klient {
 		
 		}while(runGruppe);
 		
+		
+	}
+	
+	
+	private void erstelleNeueGruppe() {
+		// TODO Auto-generated method stub
+		ArrayList<Integer> idLIste = new ArrayList<Integer>();
+		String[] tmpListeNutzer;
+		int idWert;
+		
+		ausgebenStringArray(nutzer.getListe());
+		System.out.println("Bitte geben sie nacheinander die ID und bestaetigen sie jede ID mit Enter."
+				+ "\nZum beenden bitte 0 tippen");
+		try
+		{
+			do // IDs einlesen über eine do-while Schleife
+			{
+				idWert = in.nextInt();
+				if (idWert != 0 && idWert >= 1 && idWert <= nutzer.getArrayLaenge())
+				{
+					idLIste.add(idWert);
+				}
+			}while(idWert != 0); //Ende IDs einlesen
+			
+			
+			if (idLIste.size() != 0)
+			{
+				tmpListeNutzer = new String[idLIste.size()];
+				
+				for (int i = 0; i<idLIste.size(); i++)
+				{
+					
+					tmpListeNutzer[i] = nutzer.getNameDurchID(idLIste.get(i));
+					
+				}
+				System.out.println("Bitte nun noch den Namen der Gruppe angeben");
+				listeDerGruppen.add(new Gruppe(in.next(), tmpListeNutzer));
+			}
+			
+			
+		}
+		catch(InputMismatchException e)
+		{
+			System.out.println("Fehlerhafte Eingabe. Gruppenerstellung wird abgebrochen");
+		}
+	}
+
+	private void auflistenGruppeUeberName() {
+		Gruppe tmpGruppe;
+		for (int i = 0; i<listeDerGruppen.size(); i++)
+		{
+			tmpGruppe = listeDerGruppen.get(i);
+			System.out.println(tmpGruppe.getGruppenName());
+		}
 		
 	}
 	
