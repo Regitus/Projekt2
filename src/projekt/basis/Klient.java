@@ -22,15 +22,22 @@ public class Klient {
 		nutzer = new Nutzer(benutzer);
 	}
 	
+	/**
+	 * Neue Anmeldedaten speichern
+	 */
 	private void anmelden()
 	{
 		benutzer = new AktuellerBenutzer();
 		in = new Scanner(System.in);
-		System.out.println("User");
+		System.out.println("Benutzernamen eingeben");
 		benutzer.setBenutzerName(in.next());
-		System.out.println("Pass");
+		System.out.println("Passwort eingeben");
 		benutzer.setPasswort(in.next());
 	}
+	
+	/**
+	 * Das Hauptmenu des Programmes
+	 */
 	
 	public void programm()
 	{
@@ -70,7 +77,9 @@ public class Klient {
 	}
 	
 	
-
+	/**
+	 * Startmethode um die bis zu 100 letzten Nachrichten auszugeben
+	 */
 	private void ausgebenNeuesteNachrichten()
 	{
 		String[] tmpString;
@@ -81,6 +90,10 @@ public class Klient {
 		}
 	}
 	
+	/**
+	 * Liest die 100 letzten Nachrichten aus und gibt sie als String Array zurück
+	 * @return String[]; String Array mit bis zu 100 Einträgen in der ausgehende und eingehene Nachrichten des User gelistet sind
+	 */
 	private String[] getNachrichten()
 	{
 		String[] error;
@@ -99,6 +112,10 @@ public class Klient {
 		
 	}
 	
+	/**
+	 * Methode zum allgemeinen Ausgeben eines String Array auf der Konsole
+	 * @param arString; Array eines String übergeben und wird auf der Konsole übergeben
+	 */
 	private void ausgebenStringArray(String[] arString)
 	{
 		for (String text : arString)
@@ -109,6 +126,10 @@ public class Klient {
 	
 	
 	/* GRUPPENVERWALTUNG */
+	
+	/**
+	 * Steuerungsmenü für die Gruppenverwaltung
+	 */
 	private void zeigeGruppenMenu() {
 		boolean runGruppe = true;
 		do

@@ -4,14 +4,28 @@ import java.io.IOException;
 
 import de.thm.oop.chat.base.server.BasicTHMChatServer;
 
+/**
+ * Diese Klasse speichert die komplette Nutzerliste ab, die der Server für den User zur Verfügung stellt.
+ * Wird intern gespeichert um den Aufruf zum Server zum verringern, kann aber aktualisiert werden
+ * @author David, Rene, Tim
+ *
+ */
 public class Nutzer extends Personen {
 	
 	private BasicTHMChatServer server;
 	
+	/**
+	 * Beim erstellen einer Instanz dieser Klasse wird automatisch die Nutzerliste vom Server abgerufen.
+	 * @param benutzer; Instanz der AktuellenBenutzer Klasse mit Anmeldedaten
+	 */
 	public Nutzer(AktuellerBenutzer benutzer) {
 		aktualisieren(benutzer);
 	}
 	
+	/**
+	 * Erneutes aktualisieren der Nutzerliste vom Server
+	 * @param benutzer
+	 */
 	private void aktualisieren(AktuellerBenutzer benutzer)
 	{
 		server = new BasicTHMChatServer();

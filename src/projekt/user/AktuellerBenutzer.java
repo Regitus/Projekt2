@@ -1,5 +1,11 @@
 package projekt.user;
 
+/**
+ * Anmeldedaten des Benutzers werden hier gespeichert.
+ * !ACHTUNG! Passwort im Klartext intern temporär gesichert
+ * @author David, Rene, Tim
+ *
+ */
 public class AktuellerBenutzer {
 	
 	private String benutzerName = "";
@@ -18,6 +24,8 @@ public class AktuellerBenutzer {
 	public void setBenutzerName(String userName) {
 		this.benutzerName = userName;
 	}
+	
+	
 	/**
 	 * Passwort Variable: Achtung Klartext!
 	 * 
