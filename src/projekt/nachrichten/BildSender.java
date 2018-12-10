@@ -50,11 +50,11 @@ public class BildSender extends Sender
         }
         catch (SecurityException ex)
         {
-            System.out.println("Aus Sicherheitsgründen darf die Datei nicht geöffnet werden.");
+            System.out.println("Aus Sicherheitsgruenden darf die Datei nicht geoeffnet werden.");
         }
         catch (IOException ex)
         {
-            System.out.println("Ein Fehler ist während des Auslesens der Datei aufgetreten.");
+            System.out.println("Ein Fehler ist waehrend des Auslesens der Datei aufgetreten.");
         }
 
         return null;
