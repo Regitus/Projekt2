@@ -6,6 +6,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import de.thm.oop.chat.base.server.BasicTHMChatServer;
+import projekt.nachrichten.BildSender;
 import projekt.nachrichten.TextSender;
 import projekt.user.*;
 
@@ -36,6 +37,7 @@ public class Klient {
 		System.out.println("Passwort eingeben");
 		benutzer.setPasswort(in.next());
 		TextSender text = new TextSender(benutzer.getBenutzerName(), benutzer.getPasswort());
+		BildSender bild = new BildSender(benutzer.getBenutzerName(), benutzer.getPasswort());
 	}
 	
 	/**
