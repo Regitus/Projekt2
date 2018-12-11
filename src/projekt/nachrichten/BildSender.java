@@ -32,7 +32,7 @@ public class BildSender extends Sender
     private Pair<InputStream, String> getDatei(String pfad)
     {
         String dateiTyp = getDateiTyp(pfad);
-        if(dateiTyp != "jpg" && dateiTyp != "png")
+        if(!dateiTyp.equals("jpg") && !dateiTyp.equals("png"))
         {
             return null;
         }

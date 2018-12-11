@@ -10,7 +10,8 @@ import projekt.nachrichten.BildSender;
 import projekt.nachrichten.TextSender;
 import projekt.user.*;
 
-public class Klient {
+public class Klient
+{
 
 	private AktuellerBenutzer benutzer; // = new AktuellerBenutzer();
 	private BasicTHMChatServer server = new BasicTHMChatServer();
@@ -27,7 +28,8 @@ public class Klient {
 	/**
 	 * Neue Anmeldedaten speichern
 	 */
-	private void anmelden() {
+	private void anmelden()
+	{
 		@SuppressWarnings("resource")
 		Scanner inAnmelden = new Scanner(System.in);
 		benutzer = new AktuellerBenutzer();
@@ -38,21 +40,25 @@ public class Klient {
 		benutzer.setPasswort(inAnmelden.nextLine());
 		textSenden = new TextSender(benutzer.getBenutzerName(), benutzer.getPasswort());
 		bildSenden = new BildSender(benutzer.getBenutzerName(), benutzer.getPasswort());
-		
+
 	}
 
 	/**
 	 * Das Hauptmenu des Programmes
 	 */
 
-	public void programm() {
+	public void programm()
+	{
 		Scanner inMain = new Scanner(System.in);
 		boolean run = true;
-		do {
+		do
+		{
 			System.out.println("\n1. Neue Anmeldedaten" + "\n2. Die letzten 100 Nachrichten"
-					+ "\n3. Neuer als eine bestimmte ID ausgeben" + "\n4. Senden Menü" + "\n5. Alle Nutzer ausgeben"
-					+ "\n6. Gruppenverwaltung" + "\n99 Beenden");
-			switch (inMain.nextInt()) {
+					+ "\n3. Neuer als eine bestimmte ID ausgeben" + "\n4. Senden Menü" + "\n5. Gruppenverwaltung" + 
+					"\n6. Alle Nutzer ausgeben"
+					 + "\n99 Beenden");
+			switch (inMain.nextInt())
+			{
 			case 1:
 				anmelden();
 				break;
@@ -68,14 +74,15 @@ public class Klient {
 			case 4:
 				zeigeSendenMenu();
 				break;
-
+				
 			case 5:
-				ausgebenStringArray(nutzer.getListe());
+				zeigeGruppenMenu();
 				break;
 
 			case 6:
-				zeigeGruppenMenu();
+				ausgebenStringArray(nutzer.getListe());
 				break;
+
 			case 99:
 				inMain.close();
 				run = false;
@@ -91,7 +98,8 @@ public class Klient {
 	/**
 	 * Startmethode um die bis zu 100 letzten Nachrichten auszugeben
 	 */
-	private void ausgebenNeuesteNachrichten() {
+	private void ausgebenNeuesteNachrichten()
+	{
 		String[] tmpString;
 		tmpString = getNachrichten();
 		ausgebenStringArray(tmpString);
@@ -103,16 +111,20 @@ public class Klient {
 	 * @return String[]; String Array mit bis zu 100 Einträgen in der ausgehende und
 	 *         eingehene Nachrichten des User gelistet sind
 	 */
-	private String[] getNachrichten() {
+	private String[] getNachrichten()
+	{
 		String[] error;
-		try {
+		try
+		{
 			return server.getMostRecentMessages(benutzer.getBenutzerName(), benutzer.getPasswort());
 
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e)
+		{
 			error = new String[1];
 			error[0] = "Fehler beim Anmelden!";
 			return error;
-		} catch (IOException e) {
+		} catch (IOException e)
+		{
 			error = new String[1];
 			error[0] = "Fehler beim Anmelden!";
 			return error;
@@ -120,32 +132,39 @@ public class Klient {
 
 	}
 
-	private void ausgebenNeuerAlsIDNachrichten() {
-		
+	private void ausgebenNeuerAlsIDNachrichten()
+	{
+
 		String[] tmpString;
 		@SuppressWarnings("resource")
 		Scanner inAlsID = new Scanner(System.in);
 
 		System.out.println("Bitte geben sie eine Nachrichten ID an. Von dieser ID an, werden alle neueren angezeigt.");
-		try {
+		try
+		{
 			tmpString = getIDNachrichten(inAlsID.nextLong());
 			ausgebenStringArray(tmpString);
-		} catch (InputMismatchException e) {
+		} catch (InputMismatchException e)
+		{
 			// TODO: handle exception
 			System.out.println("Falsche Eingabe, Ausgabe abgebrochen");
 		}
 	}
 
-	private String[] getIDNachrichten(long id) {
+	private String[] getIDNachrichten(long id)
+	{
 		String[] error;
-		try {
+		try
+		{
 			return server.getMessages(benutzer.getBenutzerName(), benutzer.getPasswort(), id);
 
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e)
+		{
 			error = new String[1];
 			error[0] = "Fehler beim Anmelden!";
 			return error;
-		} catch (IOException e) {
+		} catch (IOException e)
+		{
 			error = new String[1];
 			error[0] = "Fehler beim Anmelden!";
 			return error;
@@ -159,28 +178,35 @@ public class Klient {
 	 * @param arString; Array eines String übergeben und wird auf der Konsole
 	 *        übergeben
 	 */
-	private void ausgebenStringArray(String[] arString) {
-		if (arString != null) {
-			for (String text : arString) {
+	private void ausgebenStringArray(String[] arString)
+	{
+		if (arString != null)
+		{
+			for (String text : arString)
+			{
 				System.out.println(text);
 			}
 		}
 	}
 	/* SENDEN MENÜ */
 
-	private void zeigeSendenMenu() {
+	private void zeigeSendenMenu()
+	{
 		@SuppressWarnings("resource")
 		Scanner inSend = new Scanner(System.in);
 		boolean runSenden = true;
-		try {
-			do {
+		try
+		{
+			do
+			{
 				System.out.println("1. Nachricht an Person mit ID mit Liste angezeigt"
 						+ "\n2. Nachricht an Person mit ID ohne Liste angezeigt" + "\n3. Nachricht an Gruppe"
 						+ "\n4. Bildnachricht an Person mit ID mit Liste angezeigt"
 						+ "\n5. Bildnachricht an Person mit ID ohne Liste angezeigt" + "\n6. Bildnachricht an Gruppe"
 						+ "\n99 Zurueck");
 
-				switch (inSend.nextInt()) {
+				switch (inSend.nextInt())
+				{
 				case 1:
 					ausgebenStringArray(nutzer.getListe());
 					versendeNachricht();
@@ -194,12 +220,13 @@ public class Klient {
 					break;
 				case 4:
 					ausgebenStringArray(nutzer.getListe());
+					versendeBildNachricht();
 					break;
 				case 5:
-
+					versendeBildNachricht();
 					break;
 				case 6:
-					auflistenGruppeUeberName();
+					versendeBildNachrichtAnGruppe();
 					break;
 				case 99:
 					runSenden = false;
@@ -210,103 +237,138 @@ public class Klient {
 				}
 
 			} while (runSenden);
-		} catch (InputMismatchException e) {
+		} catch (InputMismatchException e)
+		{
 			System.out.print("Fehlerhafte Eingabe. Bitte erneut eingeben");
 		}
 
 	}
-	
+
 	/**
 	 * Einfache Textnachricht versenden
 	 */
-	private void versendeNachricht() {
+	private void versendeNachricht()
+	{
 		int tmpID;
-		
+		String name;
+
 		@SuppressWarnings("resource")
 		Scanner inNachricht = new Scanner(System.in);
-		
+
 		System.out.println("Bitte die ID angeben:");
-		tmpID = inNachricht.nextInt();
-		System.out.println("Nun bitte den Text eingeben:");
-		textSenden.senden(nutzer.getNameDurchID(tmpID), inNachricht.nextLine());
+		tmpID = Integer.parseInt(inNachricht.nextLine());
+		name = nutzer.getNameDurchID(tmpID);
+		if (name != null)
+		{
+			System.out.println("Nun bitte den Text eingeben:");
+			textSenden.senden(nutzer.getNameDurchID(tmpID), inNachricht.nextLine());
+		} else
+			System.out.println("Ungültige ID");
 	}
-	
+
 	/**
 	 * Nachricht an Gruppe versenden.
 	 */
-	private void versendeNachrichtAnGruppe() {
+	private void versendeNachrichtAnGruppe()
+	{
 		Gruppe tmpGruppe;
 		String[] tmpListePersonen;
 		int tmpID;
 		String nachrichtstext;
-		
+
 		@SuppressWarnings("resource")
 		Scanner inAnGruppe = new Scanner(System.in);
 
-		if (listeDerGruppen.size() != 0) {
+		if (listeDerGruppen.size() != 0)
+		{
+			boolean run = true;
 			auflistenGruppeUeberName();
 			System.out.println("Bitte die ID der Gruppe angeben");
 			tmpID = Integer.parseInt(inAnGruppe.nextLine());
-			if (tmpID <= listeDerGruppen.size() && tmpID != 0) {
+			if (tmpID <= listeDerGruppen.size() && tmpID != 0)
+			{
 				tmpGruppe = listeDerGruppen.get(tmpID - 1);
 				tmpListePersonen = tmpGruppe.getListe();
 
 				System.out.println("Bitte geben sie nun den Text an");
 				nachrichtstext = inAnGruppe.nextLine();
 
-				for (String person : tmpListePersonen) {
-					textSenden.senden(person, nachrichtstext);
+				for (String person : tmpListePersonen)
+				{
+					if (run)
+					{
+						run = textSenden.senden(person, nachrichtstext);
+					}
 				}
 
-			} else {
+			} else
+			{
 				System.out.println("Fehlerhafte ID");
 			}
-		} else {
+		} else
+		{
 			System.out.println("Keine Gruppen bisher erstellt");
 		}
 
 	}
-	
-	private void versendeBildNachricht() {
+
+	private void versendeBildNachricht()
+	{
 		int tmpID;
-		
+		String name;
+
 		@SuppressWarnings("resource")
 		Scanner inBild = new Scanner(System.in);
-		
+
 		System.out.println("Bitte die ID angeben:");
-		tmpID = inBild.nextInt();
-		System.out.println("Nun bitte den Dateipfad komplett angeben:");
-		bildSenden.senden(nutzer.getNameDurchID(tmpID), inBild.nextLine());
+		tmpID = Integer.parseInt(inBild.nextLine());
+		name = nutzer.getNameDurchID(tmpID);
+		if (name != null)
+		{
+			System.out.println("Nun bitte den Dateipfad komplett angeben:");
+			bildSenden.senden(name, inBild.nextLine());
+		} else
+			System.out.println("Ungültige ID");
 	}
-	
-	private void versendeBildNachrichtAnGruppe() {
+
+	private void versendeBildNachrichtAnGruppe()
+	{
 		Gruppe tmpGruppe;
 		String[] tmpListePersonen;
 		int tmpID;
 		String nachrichtstext;
-		
+		boolean run = true;
+
 		@SuppressWarnings("resource")
 		Scanner inBildAnGruppe = new Scanner(System.in);
 
-		if (listeDerGruppen.size() != 0) {
+		if (listeDerGruppen.size() != 0)
+		{
 			auflistenGruppeUeberName();
 			System.out.println("Bitte die ID der Gruppe angeben");
 			tmpID = Integer.parseInt(inBildAnGruppe.nextLine());
-			if (tmpID <= listeDerGruppen.size() && tmpID != 0) {
+			if (tmpID <= listeDerGruppen.size() && tmpID != 0)
+			{
 				tmpGruppe = listeDerGruppen.get(tmpID - 1);
 				tmpListePersonen = tmpGruppe.getListe();
 
 				System.out.println("Nun bitte den Dateipfad komplett angeben:");
 				nachrichtstext = inBildAnGruppe.nextLine();
 
-				for (String person : tmpListePersonen) {
-					bildSenden.senden(person, nachrichtstext);
+				for (String person : tmpListePersonen)
+				{
+					if (run)
+					{
+						run = 	bildSenden.senden(person, nachrichtstext);
+					}
 				}
 
-			} else {
+			} else
+			{
 				System.out.println("Fehlerhafte ID");
 			}
-		} else {
+		} else
+		{
 			System.out.println("Keine Gruppen bisher erstellt");
 		}
 
@@ -317,19 +379,23 @@ public class Klient {
 	/**
 	 * Steuerungsmenü für die Gruppenverwaltung
 	 */
-	private void zeigeGruppenMenu() {
+	private void zeigeGruppenMenu()
+	{
 		boolean runGruppe = true;
-		
+
 		@SuppressWarnings("resource")
 		Scanner inGruppe = new Scanner(System.in);
-		try {
+		try
+		{
 
-			do {
+			do
+			{
 
 				System.out.println("1. Nachricht an Gruppe" + "\n2. Zeige alle Gruppen mit ihren Namen"
 						+ "\n3. Neue Gruppe" + "\n4. Gruppe loeschen" + "\n99 Zurueck");
 
-				switch (inGruppe.nextInt()) {
+				switch (inGruppe.nextInt())
+				{
 				case 1:
 					// Nachrichtmethode
 					break;
@@ -358,7 +424,8 @@ public class Klient {
 				}
 
 			} while (runGruppe);
-		} catch (InputMismatchException e) {
+		} catch (InputMismatchException e)
+		{
 			System.out.print("Fehlerhafte Eingabe. Bitte erneut eingeben");
 		}
 
@@ -367,7 +434,8 @@ public class Klient {
 	/**
 	 * Erstellen einer neuen Gruppe und anhängen an die ArrayList der Gruppe
 	 */
-	private void erstelleNeueGruppe() {
+	private void erstelleNeueGruppe()
+	{
 		@SuppressWarnings("resource")
 		Scanner inNeueGruppe = new Scanner(System.in);
 		// TODO Auto-generated method stub
@@ -379,11 +447,13 @@ public class Klient {
 		ausgebenStringArray(nutzer.getListe());
 		System.out.println("Bitte geben sie nacheinander die ID und bestaetigen sie jede ID mit Enter."
 				+ "\nZum beenden bitte 0 tippen");
-		try {
+		try
+		{
 			do // IDs einlesen über eine do-while Schleife
 			{
 				idWert = Integer.parseInt(inNeueGruppe.nextLine());
-				if (idWert != 0 && idWert >= 1 && idWert <= nutzer.getArrayLaenge()) {
+				if (idWert != 0 && idWert >= 1 && idWert <= nutzer.getArrayLaenge())
+				{
 					idLIste.add(idWert);
 				}
 			} while (idWert != 0); // Ende IDs einlesen
@@ -392,7 +462,8 @@ public class Klient {
 			{
 				tmpListeNutzer = new String[idLIste.size()];
 
-				for (int i = 0; i < idLIste.size(); i++) {
+				for (int i = 0; i < idLIste.size(); i++)
+				{
 
 					tmpListeNutzer[i] = nutzer.getNameDurchID(idLIste.get(i)); // Name aus der Nutzer KLasse holen
 
@@ -403,7 +474,8 @@ public class Klient {
 				listeDerGruppen.add(new Gruppe(inNeueGruppe.nextLine(), tmpListeNutzer));
 			}
 
-		} catch (InputMismatchException e) {
+		} catch (InputMismatchException e)
+		{
 			System.out.println("Fehlerhafte Eingabe. Gruppenerstellung wird abgebrochen");
 		}
 	}
@@ -411,9 +483,11 @@ public class Klient {
 	/**
 	 * Gruppen über Namen auflisten
 	 */
-	private void auflistenGruppeUeberName() {
+	private void auflistenGruppeUeberName()
+	{
 		Gruppe tmpGruppe;
-		for (int i = 0; i < listeDerGruppen.size(); i++) {
+		for (int i = 0; i < listeDerGruppen.size(); i++)
+		{
 			tmpGruppe = listeDerGruppen.get(i);
 			System.out.println(i + 1 + ". " + tmpGruppe.getGruppenName());
 		}
