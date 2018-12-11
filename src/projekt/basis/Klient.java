@@ -215,7 +215,10 @@ public class Klient {
 		}
 
 	}
-
+	
+	/**
+	 * Einfache Textnachricht versenden
+	 */
 	private void versendeNachricht() {
 		int tmpID;
 		
@@ -227,7 +230,10 @@ public class Klient {
 		System.out.println("Nun bitte den Text eingeben:");
 		textSenden.senden(nutzer.getNameDurchID(tmpID), inNachricht.nextLine());
 	}
-
+	
+	/**
+	 * Nachricht an Gruppe versenden.
+	 */
 	private void versendeNachrichtAnGruppe() {
 		Gruppe tmpGruppe;
 		String[] tmpListePersonen;
@@ -250,6 +256,51 @@ public class Klient {
 
 				for (String person : tmpListePersonen) {
 					textSenden.senden(person, nachrichtstext);
+				}
+
+			} else {
+				System.out.println("Fehlerhafte ID");
+			}
+		} else {
+			System.out.println("Keine Gruppen bisher erstellt");
+		}
+
+	}
+	
+	private void versendeBildNachricht() {
+		int tmpID;
+		
+		@SuppressWarnings("resource")
+		Scanner inBild = new Scanner(System.in);
+		
+		System.out.println("Bitte die ID angeben:");
+		tmpID = inBild.nextInt();
+		System.out.println("Nun bitte den Dateipfad komplett angeben:");
+		bildSenden.senden(nutzer.getNameDurchID(tmpID), inBild.nextLine());
+	}
+	
+	private void versendeBildNachrichtAnGruppe() {
+		Gruppe tmpGruppe;
+		String[] tmpListePersonen;
+		int tmpID;
+		String nachrichtstext;
+		
+		@SuppressWarnings("resource")
+		Scanner inBildAnGruppe = new Scanner(System.in);
+
+		if (listeDerGruppen.size() != 0) {
+			auflistenGruppeUeberName();
+			System.out.println("Bitte die ID der Gruppe angeben");
+			tmpID = Integer.parseInt(inBildAnGruppe.nextLine());
+			if (tmpID <= listeDerGruppen.size() && tmpID != 0) {
+				tmpGruppe = listeDerGruppen.get(tmpID - 1);
+				tmpListePersonen = tmpGruppe.getListe();
+
+				System.out.println("Nun bitte den Dateipfad komplett angeben:");
+				nachrichtstext = inBildAnGruppe.nextLine();
+
+				for (String person : tmpListePersonen) {
+					bildSenden.senden(person, nachrichtstext);
 				}
 
 			} else {

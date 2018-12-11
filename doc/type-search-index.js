@@ -1,1 +1,1 @@
-typeSearchIndex = [{"p":"projekt.user","l":"Nutzer"}]
+typeSearchIndex = [{"p":"projekt.user","l":"AktuellerBenutzer"},{"p":"projekt.nachrichten","l":"BildSender"},{"p":"projekt.user","l":"Gruppe"},{"p":"projekt.basis","l":"Klient"},{"p":"projekt.main","l":"MainDing"},{"p":"projekt.user","l":"Nutzer"},{"p":"projekt.user","l":"Personen"},{"p":"projekt.nachrichten","l":"Sender"},{"p":"projekt.nachrichten","l":"TextSender"}]
