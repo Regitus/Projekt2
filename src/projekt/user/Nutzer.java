@@ -67,11 +67,19 @@ public class Nutzer extends Personen {
 		
 	}
 	
+	/**
+	 * Die Menge an Nutzern auf dem Server.
+	 * @return	Int wert mit größe des internen Arrays
+	 */
 	public int getArrayLaenge()
 	{
 		return listePersonen.length;
 	}
 	
+	/**
+	 * Aktualisiert die Nutzer Liste vom Server.
+	 * @param benutzer
+	 */
 	public void holeListeNeu(AktuellerBenutzer benutzer)
 	{
 		aktualisieren(benutzer);

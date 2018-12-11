@@ -20,9 +20,13 @@ public class Klient
 	TextSender textSenden;
 	BildSender bildSenden;
 
+	/**
+	 * Erstmaliges Anmelden und Instanz der Nutzerklasse definieren
+	 */
 	public Klient() {
 		anmelden();
 		nutzer = new Nutzer(benutzer);
+
 	}
 
 	/**
@@ -38,13 +42,20 @@ public class Klient
 		benutzer.setBenutzerName(inAnmelden.nextLine());
 		System.out.println("Passwort eingeben");
 		benutzer.setPasswort(inAnmelden.nextLine());
+		
+		//Neu Anmelden in den Sender Klassen
 		textSenden = new TextSender(benutzer.getBenutzerName(), benutzer.getPasswort());
 		bildSenden = new BildSender(benutzer.getBenutzerName(), benutzer.getPasswort());
-
+		
+		//Neue Nutzerliste für den User holen
+		if (nutzer != null)
+		{
+			nutzer.holeListeNeu(benutzer);
+		}
 	}
 
 	/**
-	 * Das Hauptmenu des Programmes
+	 * Das Hauptmenu des Programmes Weiterverlinkung zum Gruppenmenü und Sendenmenü
 	 */
 
 	public void programm()
@@ -54,36 +65,35 @@ public class Klient
 		do
 		{
 			System.out.println("\n1. Neue Anmeldedaten" + "\n2. Die letzten 100 Nachrichten"
-					+ "\n3. Neuer als eine bestimmte ID ausgeben" + "\n4. Senden Menü" + "\n5. Gruppenverwaltung" + 
-					"\n6. Alle Nutzer ausgeben"
-					 + "\n99 Beenden");
+					+ "\n3. Neuer als eine bestimmte ID ausgeben" + "\n4. Senden Menü" + "\n5. Gruppenverwaltung"
+					+ "\n6. Alle Nutzer ausgeben" + "\n99 Beenden");
 			switch (inMain.nextInt())
 			{
-			case 1:
+			case 1: // Neues anmelden
 				anmelden();
 				break;
 
-			case 2:
+			case 2: // Gibt die letzten 100 Nachrichten aus
 				ausgebenNeuesteNachrichten();
 				break;
 
-			case 3:
+			case 3: // Neuer als eine bestimmte ID
 				ausgebenNeuerAlsIDNachrichten();
 				break;
 
-			case 4:
+			case 4: // Wechselns ins Senden Menü
 				zeigeSendenMenu();
 				break;
-				
-			case 5:
+
+			case 5: // Wechseln ins Gruppen Menü
 				zeigeGruppenMenu();
 				break;
 
-			case 6:
+			case 6: // Alle möglichen Nutzer ausgeben
 				ausgebenStringArray(nutzer.getListe());
 				break;
 
-			case 99:
+			case 99: // Programm beenden
 				inMain.close();
 				run = false;
 				break;
@@ -101,37 +111,15 @@ public class Klient
 	private void ausgebenNeuesteNachrichten()
 	{
 		String[] tmpString;
-		tmpString = getNachrichten();
+		
+		//Holen der Nachrichten
+		tmpString = textSenden.getNachrichten();
 		ausgebenStringArray(tmpString);
 	}
 
 	/**
-	 * Liest die 100 letzten Nachrichten aus und gibt sie als String Array zurück
-	 * 
-	 * @return String[]; String Array mit bis zu 100 Einträgen in der ausgehende und
-	 *         eingehene Nachrichten des User gelistet sind
+	 * Gibt Nachrichten aus die neuer sind als eine eingegebene ID
 	 */
-	private String[] getNachrichten()
-	{
-		String[] error;
-		try
-		{
-			return server.getMostRecentMessages(benutzer.getBenutzerName(), benutzer.getPasswort());
-
-		} catch (IllegalArgumentException e)
-		{
-			error = new String[1];
-			error[0] = "Fehler beim Anmelden!";
-			return error;
-		} catch (IOException e)
-		{
-			error = new String[1];
-			error[0] = "Fehler beim Anmelden!";
-			return error;
-		}
-
-	}
-
 	private void ausgebenNeuerAlsIDNachrichten()
 	{
 
@@ -142,34 +130,14 @@ public class Klient
 		System.out.println("Bitte geben sie eine Nachrichten ID an. Von dieser ID an, werden alle neueren angezeigt.");
 		try
 		{
-			tmpString = getIDNachrichten(inAlsID.nextLong());
+			//Nachrichten neuer als ID holen
+			tmpString = textSenden.getIDNachrichten(inAlsID.nextLong());
 			ausgebenStringArray(tmpString);
 		} catch (InputMismatchException e)
 		{
 			// TODO: handle exception
 			System.out.println("Falsche Eingabe, Ausgabe abgebrochen");
 		}
-	}
-
-	private String[] getIDNachrichten(long id)
-	{
-		String[] error;
-		try
-		{
-			return server.getMessages(benutzer.getBenutzerName(), benutzer.getPasswort(), id);
-
-		} catch (IllegalArgumentException e)
-		{
-			error = new String[1];
-			error[0] = "Fehler beim Anmelden!";
-			return error;
-		} catch (IOException e)
-		{
-			error = new String[1];
-			error[0] = "Fehler beim Anmelden!";
-			return error;
-		}
-
 	}
 
 	/**
@@ -190,6 +158,9 @@ public class Klient
 	}
 	/* SENDEN MENÜ */
 
+	/**
+	 * Das Menü für das versenden der Nachricht
+	 */
 	private void zeigeSendenMenu()
 	{
 		@SuppressWarnings("resource")
@@ -207,25 +178,25 @@ public class Klient
 
 				switch (inSend.nextInt())
 				{
-				case 1:
+				case 1: //Nachrichten verschicken und vorher ID liste anzeigen
 					ausgebenStringArray(nutzer.getListe());
 					versendeNachricht();
 					break;
-				case 2:
+				case 2:	//Nachricht verschicken
 					versendeNachricht();
 
 					break;
-				case 3:
+				case 3:	//An Gruppe schicken
 					versendeNachrichtAnGruppe();
 					break;
-				case 4:
+				case 4: //Bildnachricht mit ID Liste vorher
 					ausgebenStringArray(nutzer.getListe());
 					versendeBildNachricht();
 					break;
-				case 5:
+				case 5:	//Bildnachricht
 					versendeBildNachricht();
 					break;
-				case 6:
+				case 6: //Bildnachricht Gruppe
 					versendeBildNachrichtAnGruppe();
 					break;
 				case 99:
@@ -254,12 +225,13 @@ public class Klient
 
 		@SuppressWarnings("resource")
 		Scanner inNachricht = new Scanner(System.in);
-
+		//Erst ID des Empfängers einholen
 		System.out.println("Bitte die ID angeben:");
 		tmpID = Integer.parseInt(inNachricht.nextLine());
 		name = nutzer.getNameDurchID(tmpID);
 		if (name != null)
 		{
+			//Dann Text einholen und abschicken
 			System.out.println("Nun bitte den Text eingeben:");
 			textSenden.senden(nutzer.getNameDurchID(tmpID), inNachricht.nextLine());
 		} else
@@ -282,20 +254,22 @@ public class Klient
 		if (listeDerGruppen.size() != 0)
 		{
 			boolean run = true;
-			auflistenGruppeUeberName();
+			auflistenGruppeUeberName(); // Erst ID der Gruppen angeben
+			//Dann ID eingeben lassen
 			System.out.println("Bitte die ID der Gruppe angeben");
 			tmpID = Integer.parseInt(inAnGruppe.nextLine());
 			if (tmpID <= listeDerGruppen.size() && tmpID != 0)
 			{
 				tmpGruppe = listeDerGruppen.get(tmpID - 1);
 				tmpListePersonen = tmpGruppe.getListe();
-
+				
+				//Text einholen
 				System.out.println("Bitte geben sie nun den Text an");
 				nachrichtstext = inAnGruppe.nextLine();
 
 				for (String person : tmpListePersonen)
 				{
-					if (run)
+					if (run) //Solange Nachricht versenden true zurückgibt weitermachen
 					{
 						run = textSenden.senden(person, nachrichtstext);
 					}
@@ -312,6 +286,9 @@ public class Klient
 
 	}
 
+	/**
+	 * Logik zum versenden der Bildnachricht
+	 */
 	private void versendeBildNachricht()
 	{
 		int tmpID;
@@ -319,18 +296,23 @@ public class Klient
 
 		@SuppressWarnings("resource")
 		Scanner inBild = new Scanner(System.in);
-
+		
+		//ID einholen
 		System.out.println("Bitte die ID angeben:");
 		tmpID = Integer.parseInt(inBild.nextLine());
 		name = nutzer.getNameDurchID(tmpID);
 		if (name != null)
 		{
+			//Dateipfad einholen
 			System.out.println("Nun bitte den Dateipfad komplett angeben:");
 			bildSenden.senden(name, inBild.nextLine());
 		} else
 			System.out.println("Ungültige ID");
 	}
 
+	/**
+	 * Bildnachricht an eine Gruppe
+	 */
 	private void versendeBildNachrichtAnGruppe()
 	{
 		Gruppe tmpGruppe;
@@ -359,7 +341,7 @@ public class Klient
 				{
 					if (run)
 					{
-						run = 	bildSenden.senden(person, nachrichtstext);
+						run = bildSenden.senden(person, nachrichtstext);
 					}
 				}
 
@@ -391,30 +373,23 @@ public class Klient
 			do
 			{
 
-				System.out.println("1. Nachricht an Gruppe" + "\n2. Zeige alle Gruppen mit ihren Namen"
-						+ "\n3. Neue Gruppe" + "\n4. Gruppe loeschen" + "\n99 Zurueck");
+				System.out.println("\n1. Zeige alle Gruppen mit ihren Namen" + "\n2. Neue Gruppe" + "\n99 Zurueck");
 
 				switch (inGruppe.nextInt())
 				{
-				case 1:
-					// Nachrichtmethode
-					break;
 
-				case 2:
+				case 1:
 					// Methode die die ArrayList durcharbeitet und Name ausgibt mit einer ID
 					auflistenGruppeUeberName();
 					break;
 
-				case 3:
+				case 2:
 					// Methode zur Erstellung einer neuen Gruppe. Erst ID ausgeben und dann solange
 					// IDs eingeben bis man 0 eingibt.
 					// Bei 0 beenden und Gruppe erstellen
 					erstelleNeueGruppe();
 					break;
 
-				case 4:
-					// Lösche Gruppe mit der ID, 0 zum abbrechen
-					break;
 				case 99:
 					runGruppe = false;
 					break;

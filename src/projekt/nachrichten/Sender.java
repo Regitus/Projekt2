@@ -10,7 +10,12 @@ public abstract class Sender
     protected String passwort;
 
     protected BasicTHMChatServer server;
-
+    
+    /**
+     * Anmeldedaten übergeben
+     * @param benutzerName 
+     * @param passwort
+     */
     protected Sender(String benutzerName, String passwort)
     {
         this.benutzerName = benutzerName;
@@ -18,7 +23,13 @@ public abstract class Sender
 
         this.server = new BasicTHMChatServer();
     }
-
+    
+    /**
+     * Logik zum versenden der Nachricht
+     * @param empfaenger Empfänger Name als String
+     * @param daten	Text oder Dateipfad
+     * @return True wenn gesendet, falls wenn nicht
+     */
     public boolean senden(String empfaenger, String daten)
     {
         try

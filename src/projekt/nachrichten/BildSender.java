@@ -11,6 +11,11 @@ import java.nio.file.Files;
 
 public class BildSender extends Sender
 {
+	/**
+	 * Anmeldedaten übergeben
+	 * @param benutzerName Benutzername als String
+	 * @param passwort	Passwort im Klartext als String
+	 */
     public BildSender(String benutzerName, String passwort)
     {
         super(benutzerName, passwort);
@@ -19,25 +24,30 @@ public class BildSender extends Sender
     @Override
     protected boolean sendenZuServer(String empfaenger, String daten) throws IOException, IllegalArgumentException
     {
-        Pair<InputStream, String> datei = getDatei(daten);
-        if(datei == null)
+        Pair<InputStream, String> datei = getDatei(daten);	//Dateipfad bekommen
+        if(datei == null)	//Ein Dateipfad vorhanden?
         {
             return false;
         }
 
-        server.sendImageMessage(benutzerName, passwort, empfaenger, datei.getValue(), datei.getKey());
+        server.sendImageMessage(benutzerName, passwort, empfaenger, datei.getValue(), datei.getKey()); //Bildnachricht abschicken
         return true;
     }
-
+    
+    /**
+     * Datei ermitteln + Einlesen
+     * @param pfad Dateipfad, bekommen aus dem String daten der Methode sendenZuServer
+     * @return	Pair zurück
+     */
     private Pair<InputStream, String> getDatei(String pfad)
     {
-        String dateiTyp = getDateiTyp(pfad);
+        String dateiTyp = getDateiTyp(pfad);	//Dateiendung ermitteln und prüfen
         if(!dateiTyp.equals("jpg") && !dateiTyp.equals("png"))
         {
             return null;
         }
 
-        try
+        try	//Dateipfad auslesen und prüfen ob alles okay ist
         {
             String typ = Files.probeContentType(Paths.get(pfad));
             InputStream stream = new FileInputStream(pfad);
@@ -59,7 +69,12 @@ public class BildSender extends Sender
 
         return null;
     }
-
+    
+    /**
+     * Ermitteln der Dateiendung
+     * @param pfad	Dateipfad
+     * @return	String mit Endung
+     */
     private String getDateiTyp(String pfad)
     {
         int index = pfad.lastIndexOf('.');
