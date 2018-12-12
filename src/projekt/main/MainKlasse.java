@@ -2,7 +2,7 @@ package projekt.main;
 
 import projekt.basis.Klient;
 
-public class MainDing {
+public class MainKlasse {
 	
 	public static void main(String[] args)
 	{
