@@ -6,8 +6,8 @@ public class TextSender extends Sender
 {
 	/**
 	 * Anmeldedaten abspeichern
-	 * @param benutzerName
-	 * @param passwort
+	 * @param benutzerName Benutzername
+	 * @param passwort	Passwort
 	 */
     public TextSender(String benutzerName, String passwort)
     {
@@ -29,21 +29,13 @@ public class TextSender extends Sender
 	 */
 	public String[] getNachrichten()
 	{
-		String[] error;
 		try
 		{
 			return server.getMostRecentMessages(benutzerName, passwort);
 
-		} catch (IllegalArgumentException e)
+		} catch (IllegalArgumentException | IOException e)
 		{
-			error = new String[1];
-			error[0] = "Fehler beim Anmelden!";
-			return error;
-		} catch (IOException e)
-		{
-			error = new String[1];
-			error[0] = "Fehler beim Anmelden!";
-			return error;
+			return new String[] {"Fehler beim Anmelden"};
 		}
 
 	}
@@ -55,22 +47,15 @@ public class TextSender extends Sender
 	 */
 	public String[] getIDNachrichten(long id)
 	{
-		String[] error;
 		try
 		{
 			return server.getMessages(benutzerName, passwort, id);
-
-		} catch (IllegalArgumentException e)
-		{
-			error = new String[1];
-			error[0] = "Fehler beim Anmelden!";
-			return error;
-		} catch (IOException e)
-		{
-			error = new String[1];
-			error[0] = "Fehler beim Anmelden!";
-			return error;
 		}
+		catch (IllegalArgumentException | IOException e)
+		{
+			return new String[] {"Fehler beim Anmelden"};
+		}
+		
 
 	}
 }

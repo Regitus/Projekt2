@@ -1,12 +1,11 @@
 package projekt.basis;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import de.thm.oop.chat.base.server.BasicTHMChatServer;
 import projekt.nachrichten.BildSender;
+import projekt.nachrichten.Sender;
 import projekt.nachrichten.TextSender;
 import projekt.user.*;
 
@@ -14,7 +13,6 @@ public class Klient
 {
 
 	private AktuellerBenutzer benutzer; // = new AktuellerBenutzer();
-	private BasicTHMChatServer server = new BasicTHMChatServer();
 	private Nutzer nutzer;
 	private ArrayList<Gruppe> listeDerGruppen = new ArrayList<Gruppe>();
 	TextSender textSenden;
@@ -42,12 +40,12 @@ public class Klient
 		benutzer.setBenutzerName(inAnmelden.nextLine());
 		System.out.println("Passwort eingeben");
 		benutzer.setPasswort(inAnmelden.nextLine());
-		
-		//Neu Anmelden in den Sender Klassen
+
+		// Neu Anmelden in den Sender Klassen
 		textSenden = new TextSender(benutzer.getBenutzerName(), benutzer.getPasswort());
 		bildSenden = new BildSender(benutzer.getBenutzerName(), benutzer.getPasswort());
-		
-		//Neue Nutzerliste für den User holen
+
+		// Neue Nutzerliste für den User holen
 		if (nutzer != null)
 		{
 			nutzer.holeListeNeu(benutzer);
@@ -111,8 +109,8 @@ public class Klient
 	private void ausgebenNeuesteNachrichten()
 	{
 		String[] tmpString;
-		
-		//Holen der Nachrichten
+
+		// Holen der Nachrichten
 		tmpString = textSenden.getNachrichten();
 		ausgebenStringArray(tmpString);
 	}
@@ -130,7 +128,7 @@ public class Klient
 		System.out.println("Bitte geben sie eine Nachrichten ID an. Von dieser ID an, werden alle neueren angezeigt.");
 		try
 		{
-			//Nachrichten neuer als ID holen
+			// Nachrichten neuer als ID holen
 			tmpString = textSenden.getIDNachrichten(inAlsID.nextLong());
 			ausgebenStringArray(tmpString);
 		} catch (InputMismatchException e)
@@ -178,26 +176,26 @@ public class Klient
 
 				switch (inSend.nextInt())
 				{
-				case 1: //Nachrichten verschicken und vorher ID liste anzeigen
+				case 1: // Nachrichten verschicken und vorher ID liste anzeigen
 					ausgebenStringArray(nutzer.getListe());
-					versendeNachricht();
+					versendeNachricht(textSenden);
 					break;
-				case 2:	//Nachricht verschicken
-					versendeNachricht();
+				case 2: // Nachricht verschicken
+					versendeNachricht(textSenden);
 
 					break;
-				case 3:	//An Gruppe schicken
-					versendeNachrichtAnGruppe();
+				case 3: // An Gruppe schicken
+					versendeNachrichtAnGruppe(textSenden);
 					break;
-				case 4: //Bildnachricht mit ID Liste vorher
+				case 4: // Bildnachricht mit ID Liste vorher
 					ausgebenStringArray(nutzer.getListe());
-					versendeBildNachricht();
+					versendeNachricht(bildSenden);
 					break;
-				case 5:	//Bildnachricht
-					versendeBildNachricht();
+				case 5: // Bildnachricht
+					versendeNachricht(bildSenden);
 					break;
-				case 6: //Bildnachricht Gruppe
-					versendeBildNachrichtAnGruppe();
+				case 6: // Bildnachricht Gruppe
+					versendeNachrichtAnGruppe(bildSenden);
 					break;
 				case 99:
 					runSenden = false;
@@ -217,31 +215,39 @@ public class Klient
 
 	/**
 	 * Einfache Textnachricht versenden
+	 * @param sender; Instant von TextSender oder BildSender an die Methode übergeben
 	 */
-	private void versendeNachricht()
+	private void versendeNachricht(Sender sender)
 	{
 		int tmpID;
 		String name;
 
 		@SuppressWarnings("resource")
 		Scanner inNachricht = new Scanner(System.in);
-		//Erst ID des Empfängers einholen
+		// Erst ID des Empfängers einholen
 		System.out.println("Bitte die ID angeben:");
 		tmpID = Integer.parseInt(inNachricht.nextLine());
 		name = nutzer.getNameDurchID(tmpID);
 		if (name != null)
 		{
-			//Dann Text einholen und abschicken
-			System.out.println("Nun bitte den Text eingeben:");
-			textSenden.senden(nutzer.getNameDurchID(tmpID), inNachricht.nextLine());
+			// Dann Text einholen und abschicken
+			if (sender instanceof BildSender)
+			{
+				// Dateipfad einholen
+				System.out.println("Nun bitte den Dateipfad komplett angeben:");
+				
+			}else System.out.println("Nun bitte den Text eingeben:");
+			
+			sender.senden(nutzer.getNameDurchID(tmpID), inNachricht.nextLine());
 		} else
 			System.out.println("Ungültige ID");
 	}
 
 	/**
 	 * Nachricht an Gruppe versenden.
+	 * @param sender; Instant von TextSender oder BildSender an die Methode übergeben
 	 */
-	private void versendeNachrichtAnGruppe()
+	private void versendeNachrichtAnGruppe(Sender sender)
 	{
 		Gruppe tmpGruppe;
 		String[] tmpListePersonen;
@@ -255,7 +261,7 @@ public class Klient
 		{
 			boolean run = true;
 			auflistenGruppeUeberName(); // Erst ID der Gruppen angeben
-			//Dann ID eingeben lassen
+			// Dann ID eingeben lassen
 			System.out.println("Bitte die ID der Gruppe angeben");
 			tmpID = Integer.parseInt(inAnGruppe.nextLine());
 			if (tmpID <= listeDerGruppen.size() && tmpID != 0)
@@ -263,15 +269,20 @@ public class Klient
 				tmpGruppe = listeDerGruppen.get(tmpID - 1);
 				tmpListePersonen = tmpGruppe.getListe();
 				
-				//Text einholen
-				System.out.println("Bitte geben sie nun den Text an");
+				// Text einholen
+				if (sender instanceof BildSender)
+				{
+					System.out.println("Nun bitte den Dateipfad komplett angeben:");
+					
+				} else 	System.out.println("Bitte geben sie nun den Text an");
+				
 				nachrichtstext = inAnGruppe.nextLine();
 
 				for (String person : tmpListePersonen)
 				{
-					if (run) //Solange Nachricht versenden true zurückgibt weitermachen
+					if (run) // Solange Nachricht versenden true zurückgibt weitermachen
 					{
-						run = textSenden.senden(person, nachrichtstext);
+						run = sender.senden(person, nachrichtstext);
 					}
 				}
 
@@ -286,75 +297,6 @@ public class Klient
 
 	}
 
-	/**
-	 * Logik zum versenden der Bildnachricht
-	 */
-	private void versendeBildNachricht()
-	{
-		int tmpID;
-		String name;
-
-		@SuppressWarnings("resource")
-		Scanner inBild = new Scanner(System.in);
-		
-		//ID einholen
-		System.out.println("Bitte die ID angeben:");
-		tmpID = Integer.parseInt(inBild.nextLine());
-		name = nutzer.getNameDurchID(tmpID);
-		if (name != null)
-		{
-			//Dateipfad einholen
-			System.out.println("Nun bitte den Dateipfad komplett angeben:");
-			bildSenden.senden(name, inBild.nextLine());
-		} else
-			System.out.println("Ungültige ID");
-	}
-
-	/**
-	 * Bildnachricht an eine Gruppe
-	 */
-	private void versendeBildNachrichtAnGruppe()
-	{
-		Gruppe tmpGruppe;
-		String[] tmpListePersonen;
-		int tmpID;
-		String nachrichtstext;
-		boolean run = true;
-
-		@SuppressWarnings("resource")
-		Scanner inBildAnGruppe = new Scanner(System.in);
-
-		if (listeDerGruppen.size() != 0)
-		{
-			auflistenGruppeUeberName();
-			System.out.println("Bitte die ID der Gruppe angeben");
-			tmpID = Integer.parseInt(inBildAnGruppe.nextLine());
-			if (tmpID <= listeDerGruppen.size() && tmpID != 0)
-			{
-				tmpGruppe = listeDerGruppen.get(tmpID - 1);
-				tmpListePersonen = tmpGruppe.getListe();
-
-				System.out.println("Nun bitte den Dateipfad komplett angeben:");
-				nachrichtstext = inBildAnGruppe.nextLine();
-
-				for (String person : tmpListePersonen)
-				{
-					if (run)
-					{
-						run = bildSenden.senden(person, nachrichtstext);
-					}
-				}
-
-			} else
-			{
-				System.out.println("Fehlerhafte ID");
-			}
-		} else
-		{
-			System.out.println("Keine Gruppen bisher erstellt");
-		}
-
-	}
 
 	/* GRUPPENVERWALTUNG */
 

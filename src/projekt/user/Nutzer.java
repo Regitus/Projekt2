@@ -78,7 +78,7 @@ public class Nutzer extends Personen {
 	
 	/**
 	 * Aktualisiert die Nutzer Liste vom Server.
-	 * @param benutzer
+	 * @param benutzer Instanz von AktuellerBenutzer
 	 */
 	public void holeListeNeu(AktuellerBenutzer benutzer)
 	{
