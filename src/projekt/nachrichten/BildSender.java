@@ -24,8 +24,8 @@ public class BildSender extends Sender
      * @param empfaenger derjenige, der das Bild bekommt
      * @param daten der Dateipfad des Bildes
      * @return Gibt zurück, ob das Bild geschickt wurde.
-     * @throws IOException
-     * @throws IllegalArgumentException
+     * @throws IOException Fehlerhafte Eingabe
+     * @throws IllegalArgumentException Nicht erlaubtes Argument
      */
     @Override
     protected boolean sendenZuServer(String empfaenger, String daten) throws IOException, IllegalArgumentException
