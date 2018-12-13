@@ -10,7 +10,7 @@ import java.nio.file.Files;
 public class BildSender extends Sender
 {
 	/**
-	 * Anmeldedaten Ã¼bergeben
+	 * Anmeldedaten übergeben
 	 * @param benutzerName Benutzername als String
 	 * @param passwort	Passwort im Klartext als String
 	 */
@@ -23,20 +23,20 @@ public class BildSender extends Sender
      * Liest die Bild-Datei und sendet sie zum Server
      * @param empfaenger derjenige, der das Bild bekommt
      * @param daten der Dateipfad des Bildes
-     * @return Gibt zurÃ¼ck, ob das Bild geschickt wurde.
-     * @throws IOException
-     * @throws IllegalArgumentException
+     * @return Gibt zurück, ob das Bild geschickt wurde.
+     * @throws IOException Fehlerhafte Eingabe
+     * @throws IllegalArgumentException Nicht erlaubtes Argument
      */
     @Override
     protected boolean sendenZuServer(String empfaenger, String daten) throws IOException, IllegalArgumentException
     {
-        String dateiTyp = getDateiTyp(daten);	//Dateiendung ermitteln und prï¿½fen
+        String dateiTyp = getDateiTyp(daten);	//Dateiendung ermitteln und prüfen
         if(!dateiTyp.equals("jpg") && !dateiTyp.equals("png"))
         {
             return false;
         }
 
-        try	//Dateipfad auslesen und prï¿½fen ob alles okay ist
+        try	//Dateipfad auslesen und prüfen ob alles okay ist
         {
             String typ = Files.probeContentType(Paths.get(daten));
             InputStream stream = new FileInputStream(daten);
@@ -49,11 +49,11 @@ public class BildSender extends Sender
         }
         catch (SecurityException ex)
         {
-            System.out.println("Aus SicherheitsgrÃ¼nden darf die Datei nicht geÃ¼ffnet werden.");
+            System.out.println("Aus Sicherheitsgründen darf die Datei nicht geöffnet werden.");
         }
         catch (IOException ex)
         {
-            System.out.println("Ein Fehler ist wÃ¼hrend des Auslesens der Datei aufgetreten.");
+            System.out.println("Ein Fehler ist während des Auslesens der Datei aufgetreten.");
         }
 
         return false;
