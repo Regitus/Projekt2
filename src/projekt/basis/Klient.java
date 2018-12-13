@@ -32,14 +32,15 @@ public class Klient
 	 */
 	private void anmelden()
 	{
+		String tmpWert;
 		@SuppressWarnings("resource")
 		Scanner inAnmelden = new Scanner(System.in);
-		benutzer = new AktuellerBenutzer();
+		
 		inAnmelden = new Scanner(System.in);
 		System.out.println("Benutzernamen eingeben");
-		benutzer.setBenutzerName(inAnmelden.nextLine());
+		tmpWert = inAnmelden.nextLine();
 		System.out.println("Passwort eingeben");
-		benutzer.setPasswort(inAnmelden.nextLine());
+		benutzer = new AktuellerBenutzer(tmpWert, inAnmelden.nextLine());
 
 		// Neu Anmelden in den Sender Klassen
 		textSenden = new TextSender(benutzer.getBenutzerName(), benutzer.getPasswort());

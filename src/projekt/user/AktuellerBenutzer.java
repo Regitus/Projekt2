@@ -11,20 +11,17 @@ public class AktuellerBenutzer {
 	private String benutzerName = "";
 	private String passwort = "";
 	
+	public AktuellerBenutzer(String name, String pass)
+	{
+		benutzerName = name;
+		passwort = pass;
+	}
 	
 	/**
 	 * @return Gibt den Benutzernamen zurück
 	 */
 	public String getBenutzerName() {
 		return benutzerName;
-	}
-	/**
-	 * Benutzernamen speichern
-	 * @param userName Setzt den Benutzernamen
-	 * 
-	 */
-	public void setBenutzerName(String userName) {
-		this.benutzerName = userName;
 	}
 	
 	
@@ -36,13 +33,4 @@ public class AktuellerBenutzer {
 	public String getPasswort() {
 		return passwort;
 	}
-	/**
-	 * @param password Gibt das Passwort wieder aus
-	 */
-	public void setPasswort(String password) {
-		this.passwort = password;
-	}
-	
-	
-
 }

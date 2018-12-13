@@ -18,7 +18,7 @@ public class Gruppe extends Personen {
 	public Gruppe(String name, String[] liste)
 	{
 		listePersonen = liste;
-		setGruppenName(name);
+		gruppenName = name;
 	}
 	
 	
@@ -29,16 +29,6 @@ public class Gruppe extends Personen {
 	public String getGruppenName() {
 		return gruppenName;
 	}
-
-	/**
-	 * Setzen des Namen der Gruppe
-	 * @param gruppenName the gruppenName to set
-	 */
-	public void setGruppenName(String gruppenName) {
-		this.gruppenName = gruppenName;
-	}
-
-
 
 	@Override
 	public String[] getListe() {
