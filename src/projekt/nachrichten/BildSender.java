@@ -36,7 +36,7 @@ public class BildSender extends Sender
             return false;
         }
 
-        try	//Dateipfad auslesen und prï¿½fen ob alles okay ist
+        try	//Dateipfad auslesen und prüfen ob alles okay ist
         {
             String typ = Files.probeContentType(Paths.get(daten));
             InputStream stream = new FileInputStream(daten);
