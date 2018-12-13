@@ -259,7 +259,6 @@ public class Klient
 
 		if (listeDerGruppen.size() != 0)
 		{
-			boolean run = true;
 			auflistenGruppeUeberName(); // Erst ID der Gruppen angeben
 			// Dann ID eingeben lassen
 			System.out.println("Bitte die ID der Gruppe angeben");
@@ -280,9 +279,9 @@ public class Klient
 
 				for (String person : tmpListePersonen)
 				{
-					if (run) // Solange Nachricht versenden true zurückgibt weitermachen
+					if (!sender.senden(person, nachrichtstext)) // Solange Nachricht versenden true zurückgibt weitermachen
 					{
-						run = sender.senden(person, nachrichtstext);
+						break;
 					}
 				}
 
