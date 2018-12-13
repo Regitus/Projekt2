@@ -1,7 +1,5 @@
 package projekt.nachrichten;
 
-import javafx.util.Pair;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +10,7 @@ import java.nio.file.Files;
 public class BildSender extends Sender
 {
 	/**
-	 * Anmeldedaten übergeben
+	 * Anmeldedaten Ã¼bergeben
 	 * @param benutzerName Benutzername als String
 	 * @param passwort	Passwort im Klartext als String
 	 */
@@ -21,38 +19,29 @@ public class BildSender extends Sender
         super(benutzerName, passwort);
     }
 
+    /**
+     * Liest die Bild-Datei und sendet sie zum Server
+     * @param empfaenger derjenige, der das Bild bekommt
+     * @param daten der Dateipfad des Bildes
+     * @return Gibt zurÃ¼ck, ob das Bild geschickt wurde.
+     * @throws IOException
+     * @throws IllegalArgumentException
+     */
     @Override
     protected boolean sendenZuServer(String empfaenger, String daten) throws IOException, IllegalArgumentException
     {
-        Pair<InputStream, String> datei = getDatei(daten);	//Dateipfad bekommen
-        if(datei == null)	//Ein Dateipfad vorhanden?
+        String dateiTyp = getDateiTyp(daten);	//Dateiendung ermitteln und prï¿½fen
+        if(!dateiTyp.equals("jpg") && !dateiTyp.equals("png"))
         {
             return false;
         }
 
-        server.sendImageMessage(benutzerName, passwort, empfaenger, datei.getValue(), datei.getKey()); //Bildnachricht abschicken
-        return true;
-    }
-    
-    /**
-     * Datei ermitteln + Einlesen
-     * @param pfad Dateipfad, bekommen aus dem String daten der Methode sendenZuServer
-     * @return	Pair zurück
-     */
-    private Pair<InputStream, String> getDatei(String pfad)
-    {
-        String dateiTyp = getDateiTyp(pfad);	//Dateiendung ermitteln und prüfen
-        if(!dateiTyp.equals("jpg") && !dateiTyp.equals("png"))
+        try	//Dateipfad auslesen und prï¿½fen ob alles okay ist
         {
-            return null;
-        }
+            String typ = Files.probeContentType(Paths.get(daten));
+            InputStream stream = new FileInputStream(daten);
 
-        try	//Dateipfad auslesen und prüfen ob alles okay ist
-        {
-            String typ = Files.probeContentType(Paths.get(pfad));
-            InputStream stream = new FileInputStream(pfad);
-
-            return new Pair<>(stream, typ);
+            server.sendImageMessage(benutzerName, passwort, empfaenger, typ, stream);
         }
         catch (FileSystemNotFoundException ex)
         {
@@ -60,16 +49,16 @@ public class BildSender extends Sender
         }
         catch (SecurityException ex)
         {
-            System.out.println("Aus Sicherheitsgründen darf die Datei nicht geöffnet werden.");
+            System.out.println("Aus SicherheitsgrÃ¼nden darf die Datei nicht geÃ¼ffnet werden.");
         }
         catch (IOException ex)
         {
-            System.out.println("Ein Fehler ist während des Auslesens der Datei aufgetreten.");
+            System.out.println("Ein Fehler ist wÃ¼hrend des Auslesens der Datei aufgetreten.");
         }
 
-        return null;
+        return false;
     }
-    
+
     /**
      * Ermitteln der Dateiendung
      * @param pfad	Dateipfad
